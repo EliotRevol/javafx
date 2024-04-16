@@ -1,32 +1,40 @@
 package thecoursemaker;
 	
-import javafx.event.ActionEvent;
-
 import javafx.application.Application;
-import javafx.event.EventHandler;
-import javafx.stage.Stage;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 
 
 public class Main extends Application {
-	private Button button;
-	private StackPane root;
+	
 	private Scene scene;
+	private MenuHandler menu;
+	private Pane working_window;
+	
+	private AppMenuBar app_menubar;
+	
+	public static State appState=State.InitialState;
+	public static String filename;
+	public static StackPane root;
+	public static Stage stage;
+	public enum State {
+		  InitialState, CreateState, ExecuteState
+	}
+	
 	public Main() {
-		System.out.print(Thread.currentThread().getName());
-		System.out.println(" appelle le constructeur de la Classe MainJavaFX");
-		button = new Button("Salut le monde !");
-		button.setOnAction(new EventHandler<ActionEvent>(){
-			@Override
-			public void handle(ActionEvent event) {
-			System.out.println("Hello World!");
-		}} );
+		//Create menu bar
+		app_menubar = new AppMenuBar();
+		menu = app_menubar.getMenuBarHandler();
 		
 		// Nœud racine.
 		root = new StackPane();
-		root.getChildren().setAll(button);
+		
+		root.getChildren().setAll(menu.getMenuBar());
+		
 		// Configuration de la scène.
 		scene = new Scene(root);
 	}
@@ -43,12 +51,16 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		System.out.print(Thread.currentThread().getName());
 		System.out.println(" execute la méthode start de la classe MainJavaFX");
+		stage = primaryStage;
+		
 		// Configuration de la fenêtre.
 		primaryStage.setScene(scene);
-		primaryStage.setTitle("Ma première application");
-		primaryStage.setWidth(350);
-		primaryStage.setHeight(300);
+		primaryStage.setTitle("The Course Maker");
+		primaryStage.setWidth(1000);
+		primaryStage.setHeight(1000);
 		primaryStage.show();
 	}
 	public static void main(String[] args) { launch(args); } 
+	
+	
 }
